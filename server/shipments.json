@@ -1,0 +1,27 @@
+[
+  {
+    "trackingNumber": "UPS249525824280",
+    "customerEmail": "duncantravis374@gmail.com",
+    "customerName": "Malik Dave",
+    "courier": "ups",
+    "shippingDate": "2025-11-01",
+    "deliveryDate": "2025-11-01",
+    "origin": "Ghana",
+    "destination": "Germany",
+    "currentLocation": "Kumasi",
+    "sender": {
+      "name": "Malik Dave",
+      "email": "duncantravis374@gmail.com",
+      "phone": "6780896955",
+      "address": "Accra"
+    },
+    "customerPhone": "77778887",
+    "customerAddress": "Accra",
+    "product": "Discreet",
+    "quantity": "1",
+    "paymentMethod": "cashapp",
+    "weight": "0.1",
+    "id": "1762024980196",
+    "createdAt": "2025-11-01T19:23:00.196Z"
+  }
+]
