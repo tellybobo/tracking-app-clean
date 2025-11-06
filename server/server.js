@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const sgMail = require('@sendgrid/mail'); // Replace nodemailer with SendGrid
+const sgMail = require('@sendgrid/mail'); 
 const fs = require('fs');
 require('dotenv').config();
 const path = require('path');
