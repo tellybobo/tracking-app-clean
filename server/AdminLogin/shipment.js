@@ -46,7 +46,7 @@ function setupEventListeners()  {
  if (event.target.classList.contains('edit-btn')) {
  const trackingNumber = event.target.getAttribute('data-tracking');
 window.location.href = 
-`/add-shipment.html?trackingNumber=${trackingNumber}`;
+`/index.html?trackingNumber=${trackingNumber}`;
         }
     });
 }
