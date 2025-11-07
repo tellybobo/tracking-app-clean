@@ -24,9 +24,14 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files
-app.use('/AdminLogin', express.static(path.join(__dirname, '/AdminLogin')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'AdminLogin/login.html'));
+});
+
+app.use('/AdminLogin', express.static(path.join(__dirname, 'AdminLogin')));
 app.use('/track-shipment', express.static(path.join(__dirname, '../ClientSide')));
-app.use(express.static(path.join(__dirname, '/AdminLogin')));
+app.use(express.static(path.join(__dirname, 'AdminLogin')));
 
 // SendGrid Email sending function
 async function sendEmailSendGrid(to, subject, text, html) {
@@ -313,12 +318,8 @@ app.get('/AdminLogin/shipment.html', (req, res) => {
     res.sendFile(path.join(__dirname, '/AdminLogin/shipment.html'));
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/AdminLogin/login.html'));
-});
-
 app.get('/admin/dashboard.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '/AdminLogin/dashboard.html'));
+    res.sendFile(path.join(__dirname, 'AdminLogin/dashboard.html'));
 });
 
 app.listen(PORT, () => {
