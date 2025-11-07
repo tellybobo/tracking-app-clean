@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hideResults();
 
           // Fetch shipment data from your API
-        fetch(`http://localhost:4040/api/shipments/${trackingNumber}`)
+        fetch(`https://backend-server-km7h.onrender.com/api/shipments/${trackingNumber}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Shipment not found');
