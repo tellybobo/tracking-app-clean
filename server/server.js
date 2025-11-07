@@ -305,8 +305,8 @@ app.get('/api/debug-env', (req, res) => {
 });
 
 // Other routes remain the same...
-app.get('/AdminLogin/add-shipment.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../AdminLogin/add-shipment.html'));
+app.get('/AdminLogin/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../AdminLogin/index.html'));
 });
 
 app.get('/AdminLogin/shipment.html', (req, res) => {
@@ -314,7 +314,7 @@ app.get('/AdminLogin/shipment.html', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../AdminLogin/index.html'));
+    res.sendFile(path.join(__dirname, '../AdminLogin/login.html'));
 });
 
 app.get('/admin/dashboard.html', (req, res) => {
