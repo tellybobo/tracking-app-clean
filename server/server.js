@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files
 app.use('/AdminLogin', express.static(path.join(__dirname, '/AdminLogin')));
 app.use('/track-shipment', express.static(path.join(__dirname, '../ClientSide')));
-app.use(express.static(path.join(__dirname, '../AdminLogin')));
+app.use(express.static(path.join(__dirname, '/AdminLogin')));
 
 // SendGrid Email sending function
 async function sendEmailSendGrid(to, subject, text, html) {
