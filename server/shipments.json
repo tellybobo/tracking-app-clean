@@ -23,5 +23,30 @@
     "weight": "0.1",
     "id": "1762024980196",
     "createdAt": "2025-11-01T19:23:00.196Z"
+  },
+  {
+    "trackingNumber": "USPS048961956402",
+    "customerEmail": "duncantravis374@gmail.com",
+    "customerName": "Camil Dae",
+    "courier": "usps",
+    "shippingDate": "2025-11-07",
+    "deliveryDate": "2025-11-07",
+    "origin": "Cameroon",
+    "destination": "Germany",
+    "currentLocation": "Oakland",
+    "sender": {
+      "name": "Malik Dave",
+      "email": "globallogisticssite@gmail.com",
+      "phone": "6780896955",
+      "address": "California"
+    },
+    "customerPhone": "77778887",
+    "customerAddress": "Accra",
+    "product": "Discreet",
+    "quantity": "1",
+    "paymentMethod": "zelle",
+    "weight": "0.1",
+    "id": "1762504935534",
+    "createdAt": "2025-11-07T08:42:15.534Z"
   }
 ]
