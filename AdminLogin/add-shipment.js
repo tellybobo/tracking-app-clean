@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (trackingNumber) {
         try {
             console.log('🌐 Fetching shipment data for editing...');
-            const response = await fetch(`https://tracking-app-clean.onrender.com/AdminLogin/add-shipment/${trackingNumber}`);
+            const response = await fetch(`https://tracking-app-clean.onrender.com/api/shipments/${trackingNumber}`);
             
             if (response.ok) {
                 const shipment = await response.json();
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             console.log('🚀 Sending to server...');
             
-            const response = await fetch('https://tracking-app-clean.onrender.com/api/add-shipment', {
+            const response = await fetch('https://tracking-app-clean.onrender.com/api/shipments', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

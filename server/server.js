@@ -113,7 +113,7 @@ app.get('/api/shipments/:trackingNumber', (req, res) => {
 });
 
 // Route for editing shipments
-app.get('/AdminLogin/add-shipment/:trackingNumber', (req, res) => {
+app.get('/api/shipments/:trackingNumber', (req, res) => {
     const trackingNumber = req.params.trackingNumber;
     console.log('🔍 Edit mode - Fetching shipment:', trackingNumber);
     
@@ -128,7 +128,7 @@ app.get('/AdminLogin/add-shipment/:trackingNumber', (req, res) => {
 });
 
 // FIXED: Combined create/update shipment endpoint with SendGrid emails
-app.post('/api/add-shipment', async (req, res) => {
+app.post('/api/shipments', async (req, res) => {
     console.log('🚨 SHIPMENT CREATION STARTED ======================');
     
     try {
