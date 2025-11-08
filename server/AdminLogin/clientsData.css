@@ -5,6 +5,12 @@ body {
 
 }
 
+.shipment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 button {
   padding: 8px 12px;
   border: none;
