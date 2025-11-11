@@ -439,7 +439,7 @@ display: flex;
   }
   .form-container input,
 .form-container textarea {
-  width: 180%;
+  width: 100%;
 }
   #message,
   .submit-btn {
