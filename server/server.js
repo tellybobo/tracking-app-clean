@@ -261,6 +261,177 @@ app.post('/api/shipments', async (req, res) => {
     }
 });
 
+
+// Shipment location update endpoint
+app.post('/api/shipments/:trackingNumber/location', async (req, res) => {
+    console.log('📍 UPDATE LOCATION REQUEST ======================');
+    
+    try {
+        const trackingNumber = req.params.trackingNumber;
+        const { latitude, longitude, locationName, status } = req.body;
+        
+        console.log('📍 Location update for:', trackingNumber);
+        console.log('📍 Coordinates:', latitude, longitude);
+        console.log('📍 Location name:', locationName);
+        
+        // Find the shipment
+        const shipmentIndex = shipments.findIndex(s => s.trackingNumber === trackingNumber);
+        if (shipmentIndex === -1) {
+            return res.status(404).json({ 
+                success: false, 
+                error: 'Shipment not found' 
+            });
+        }
+        
+        // Update location
+        shipments[shipmentIndex].currentLocation = {
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
+            name: locationName || 'Unknown Location',
+            updatedAt: new Date().toISOString()
+        };
+        
+        // Update status if provided
+        if (status) {
+            shipments[shipmentIndex].status = status;
+        }
+        
+        // Add to location history
+        if (!shipments[shipmentIndex].locationHistory) {
+            shipments[shipmentIndex].locationHistory = [];
+        }
+        
+        shipments[shipmentIndex].locationHistory.push({
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
+            name: locationName || 'Unknown Location',
+            timestamp: new Date().toISOString()
+        });
+        
+        shipments[shipmentIndex].updatedAt = new Date().toISOString();
+        
+        // Save to file
+        await fs.promises.writeFile(SHIPMENTS_FILE, JSON.stringify(shipments, null, 2), 'utf-8');
+        
+        console.log('✅ Location updated for:', trackingNumber);
+        
+        res.json({ 
+            success: true, 
+            message: 'Location updated successfully',
+            shipment: shipments[shipmentIndex]
+        });
+        
+    } catch (error) {
+        console.error('❌ Error updating location:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to update location: ' + error.message 
+        });
+    }
+});
+
+// Get shipment location history
+app.get('/api/shipments/:trackingNumber/location-history', (req, res) => {
+    const trackingNumber = req.params.trackingNumber;
+    
+    const shipment = shipments.find(s => s.trackingNumber === trackingNumber);
+    if (!shipment) {
+        return res.status(404).json({ 
+            success: false, 
+            error: 'Shipment not found' 
+        });
+    }
+    
+    res.json({
+        success: true,
+        currentLocation: shipment.currentLocation,
+        locationHistory: shipment.locationHistory || [],
+        status: shipment.status
+    });
+});
+
+// Real-time location updates with WebSocket
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ noServer: true });
+
+// Store connected clients by tracking number
+const locationClients = new Map();
+
+wss.on('connection', (ws, request) => {
+    const trackingNumber = request.url.split('/').pop();
+    
+    if (!trackingNumber) {
+        ws.close();
+        return;
+    }
+    
+    // Add to tracking number group
+    if (!locationClients.has(trackingNumber)) {
+        locationClients.set(trackingNumber, new Set());
+    }
+    locationClients.get(trackingNumber).add(ws);
+    
+    console.log(`📍 WebSocket connected for tracking: ${trackingNumber}`);
+    
+    // Send initial location
+    const shipment = shipments.find(s => s.trackingNumber === trackingNumber);
+    if (shipment && shipment.currentLocation) {
+        ws.send(JSON.stringify({
+            type: 'location_update',
+            data: shipment.currentLocation
+        }));
+    }
+    
+    ws.on('close', () => {
+        const clients = locationClients.get(trackingNumber);
+        if (clients) {
+            clients.delete(ws);
+            if (clients.size === 0) {
+                locationClients.delete(trackingNumber);
+            }
+        }
+    });
+});
+
+// Function to broadcast location updates
+function broadcastLocationUpdate(trackingNumber, locationData) {
+    const clients = locationClients.get(trackingNumber);
+    if (clients) {
+        const message = JSON.stringify({
+            type: 'location_update',
+            data: locationData,
+            timestamp: new Date().toISOString()
+        });
+        
+        clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
+    }
+}
+
+// Update the location update endpoint to broadcast
+// Add this line at the end of the location update endpoint, just before the response:
+broadcastLocationUpdate(trackingNumber, shipments[shipmentIndex].currentLocation);
+
+// Add WebSocket upgrade handler to your HTTP server
+const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📍 WebSocket ready for real-time tracking`);
+});
+
+server.on('upgrade', (request, socket, head) => {
+    const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+    
+    if (pathname.startsWith('/ws/tracking/')) {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+            wss.emit('connection', ws, request);
+        });
+    } else {
+        socket.destroy();
+    }
+});
 // Test SendGrid endpoint (replaces test-gmail)
 app.get('/api/test-sendgrid', async (req, res) => {
     console.log('🧪 Testing SendGrid configuration...');
@@ -296,6 +467,8 @@ app.get('/api/test-sendgrid', async (req, res) => {
     }
 });
 
+
+
 // Debug environment variables
 app.get('/api/debug-env', (req, res) => {
     const envInfo = {
@@ -308,6 +481,8 @@ app.get('/api/debug-env', (req, res) => {
     
     res.json(envInfo);
 });
+
+
 
 // Other routes remain the same...
 app.get('/AdminLogin/index.html', (req, res) => {

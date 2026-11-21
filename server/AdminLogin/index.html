@@ -178,6 +178,38 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label for="currentLocationLat">Current Location(Latitude)</label>
+        <input type="number" step="0.000001" class="form-control" id="currentLocationLat" name="currentLocationLat" placeholder="40.7128">
+      </div>
+      <div class="form-group">
+        <label for="currentLocationLng">Current Location (Longitude)</label>
+        <input type="number" step="0.000001" class="form-control" id="currentLocationLng" name="currentLocationLng" placeholder="-74.0060">
+      </div>
+      <div class="form-group">
+        <label for="currentLocationName">Location Name</label>
+        <input type="text" class="form-control" id="currentLocationName" name="currentLocationName" placeholder="e.g., New York Warehouse">
+      </div>
+
+      <!--Location update section (for existing shipments)-->
+      <div id="locationUpdateSection" style="display: none;">
+        <h4>Update Shipment Location</h4>
+        <div class="form-group">
+          <label for="updateLat">New Latitude</label>
+          <input type="number" step="0.000001" class="form-control" id="updateLat" placeholder="40.7128">
+        </div>
+        <div class="form-group">
+          <label for="updateLng">New Longitude</label>
+          <input type="number" step="0.000001" class="form-control" id="updateLng" placeholder="-74.0060">
+        </div>
+        <div class="form-group">
+          <label for="updateLocationName">New Location Name</label>
+          <input type="text" class="form-control" id="updateLocationName" placeholder="e.g., In Transit - Chicago">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="updateShipmentLocation()">Update Location</button>
+      </div>
+
+
 
       <button type="submit">Update</button>
     </form>
