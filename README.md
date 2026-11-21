@@ -78,7 +78,7 @@ Global-Logistics-Shipping-Agency/
 
 ### Tracking Page (frontend)
 
-![Tracking Page](./Screenshots/frontend%20homepage.png)
+![Tracking Page](./Screenshots/fronte)
 ![Tracking Page](./Screenshots/project%20frontend%20screenshot.png)
 
 ⚙️ How It Works
@@ -87,6 +87,10 @@ Global-Logistics-Shipping-Agency/
 2. A tracking number is generated and saved.
 3. The client visits the tracking page and enters their tracking number.
 4. The system fetches the shipment details from backend and displays them instantly.
+
+## 💡 What I Learned
+
+This project taught me how to deploy both a frontend and a backend to production. I built a secure admin login with authentication to protect the dashboard, and I integrated the SendGrid API to send emails from the app. I also implemented automatic tracking-number generation, so a unique number is created whenever the admin submits a shipment form.
 
 🌐 Live Demo
 
